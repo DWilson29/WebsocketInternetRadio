@@ -1,0 +1,73 @@
+Last login: Sat Dec 21 21:43:07 on ttys001
+(base)  domwilson@Doms-MacBook-Pro  ~/Documents/GitHub/WebsocketInternetRadio   main  ls
+LICENSE     client.go   go.mod      hub.go      main.go     player.html
+(base)  domwilson@Doms-MacBook-Pro  ~/Documents/GitHub/WebsocketInternetRadio   main  cd ..
+(base)  domwilson@Doms-MacBook-Pro  ~/Documents/GitHub  ls
+CS475Project1               D-Fun-Web-Project-Time      GoSyntaxProject             GolangGinSandbox            assignment-2-DomWilson2     dssimpledataprojects        grpc-go
+CVRHOCDeployment            DWilson29.github.io         Godot-Simple-Simulator      Space-Caravan-Sim           assignment-3-DomWilson2     final-project-ai-voice      htmxbasics
+CVRHOCSourceCode.zip        GoGinTest                   GodotArenaShooter           TestBlazorApp               assignment-4-DomWilson2     godotdronesim               swaggerTodoTest
+CVRHOCUnity                 GoHtmxTest                  GodotTurnBasedStrategy      WebsocketInternetRadio      cs499hw                     goginapi
+Craigslist-Scraper-CLI-Tool GoSudokuSolver              GolangGRPCExample           assignment-1-DomWilson2     d29.github.io               gogorillatest
+(base)  domwilson@Doms-MacBook-Pro  ~/Documents/GitHub  cd GoGorillatest
+(base)  domwilson@Doms-MacBook-Pro  ~/Documents/GitHub/GoGorillatest   main  ls
+LICENSE        README.md      gorillacounter gorillaexample
+(base)  domwilson@Doms-MacBook-Pro  ~/Documents/GitHub/GoGorillatest   main  cd gorillacounter
+(base)  domwilson@Doms-MacBook-Pro  ~/Documents/GitHub/GoGorillatest/gorillacounter   main  ls
+client.go go.mod    go.sum    home.html hub.go    main.go
+   2   <head>
+   3   <title>Chat Example</title>
+   4   <script type="text/javascript">
+   5   window.onload = function () {
+   6   │   var conn;
+   7   │   var msg = document.getElementById("msg");
+   8   │   var log = document.getElementById("counter");
+   9   │
+  10   │   //if we have the ability to do websockets,-
+  11   │   if (window["WebSocket"]) {
+  12   │   │   conn = new WebSocket("ws://" + document.location.host + "/ws"); //the websocket path
+  13   │   │   //on close create log saying we're closed
+  14   │   │   conn.onclose = function (evt) {
+  15   │   │   │   var item = document.createElement("div");
+  16   │   │   │   item.innerHTML = "<b>Connection closed.</b>";
+  17   │   │   │   appendLog(item);
+  18   │   │   };
+  19   │   │   //on message, create the element and add that message
+  20   │   │   conn.onmessage = function (evt) {
+  21   │   │   │   var messages = evt.data.split('\n');
+  22   │   │   │   for (var i = 0; i < messages.length; i++) {
+  23   │   │   │   │
+  24   │   │   │   │   log.innerText = messages[i]
+  25   │   │   │   }
+  26   │   │   };
+  27   │   } else {
+  28   │   │   //if the browser doesnt support it, report
+  29   │   │   var item = document.createElement("div");
+  30   │   │   item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
+  31   │   │   appendLog(item);
+  32   │   }
+  33   };
+  34   </script>
+  35   <style type="text/css">
+  36   html {
+  37   │   overflow: hidden;
+  38   }
+  39   
+  40   body {
+  41   │   overflow: hidden;
+  42   │   padding: 0;
+  43   │   margin: 0;
+  44   │   width: 100%;
+  45   │   height: 100%;
+  46   │   background: gray;
+  47   }
+  48   
+  49   #log {
+  50   │   background: white;
+  51   │   margin: 0;
+  52   │   padding: 0.5em 0.5em 0.5em 0.5em;
+  53   │   position: absolute;
+  54   │   top: 0.5em;
+  55   │   left: 0.5em;
+  56   │   right: 0.5em;
+ NORMAL   main  󱉭  gogorillatest  󰌝  home.html                                                                                                                               34  Top   1:1    12:30 
+
