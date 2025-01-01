@@ -137,16 +137,19 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		panic(err.Error())
 	}
 
+	log.Println("Opening file")
 	defer file.Close()
 	reader := bufio.NewReader(file)
 	contents := make([]byte, reader.Size())
 
-	_, err = reader.Read(contents)
+	n, err := reader.Read(contents)
 	if err != nil {
 		panic(err.Error())
 	}
-
+	log.Println(("Streaming contents."))
+	log.Println(n)
 	client.send <- contents
+	streamFile(client)
 }
 
 func streamFile(c *Client) {
@@ -174,7 +177,6 @@ func streamFile(c *Client) {
 			// Add queued chat messages to the current websocket message.
 			n := len(c.send)
 			for i := 0; i < n; i++ {
-				w.Write(newline)
 				w.Write(<-c.send)
 			}
 
