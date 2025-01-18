@@ -76,28 +76,6 @@ func (c *Client) readPump() {
 	}
 }
 
-<<<<<<< HEAD
-// writePump pumps messages from the hub to the websocket connection.
-//
-// A goroutine running writePump is started for each connection. The
-// application ensures that there is at most one writer to a connection by
-// executing all writes from this goroutine.
-func (c *Client) writePump() {
-	ticker := time.NewTicker(pingPeriod)
-	defer func() {
-		ticker.Stop()
-		c.conn.Close()
-	}()
-	for {
-		select {
-		case message, ok := <-c.send:
-			c.conn.SetWriteDeadline(time.Now().Add(writeWait))
-			if !ok {
-				// The hub closed the channel.
-				c.conn.WriteMessage(websocket.CloseMessage, []byte{})
-				return
-			}
-
 // serveWs handles websocket requests from the peer.
 func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
@@ -110,11 +88,15 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+	stats, err := file.Stat()
+	if err != nil {
+		panic(err.Error())
+	}
 
 	log.Println("Opening file")
 	defer file.Close()
 	reader := bufio.NewReader(file)
-	contents := make([]byte, reader.Size())
+	contents := make([]byte, stats.Size())
 
 	n, err := reader.Read(contents)
 	if err != nil {
