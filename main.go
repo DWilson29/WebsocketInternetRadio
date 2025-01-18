@@ -11,7 +11,7 @@ import (
 )
 
 // set the address to port 8080
-var addr = flag.String("addr", ":8080", "http service address")
+var addr = flag.String("addr", ":40000", "http service address")
 
 // serves the home
 func serveHome(w http.ResponseWriter, r *http.Request) {

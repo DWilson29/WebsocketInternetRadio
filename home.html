@@ -5,28 +5,32 @@
 <script type="text/javascript">
 window.onload = function () {
     var conn;
-    var msg = document.getElementById("msg");
     var log = document.getElementById("counter");
 
     //if we have the ability to do websockets, 
     if (window["WebSocket"]) {
+        console.log("ws://" + document.location.host + "/ws");
         conn = new WebSocket("ws://" + document.location.host + "/ws"); //the websocket path
+        conn.binaryType = "arraybuffer";
         //on close create log saying we're closed
         conn.onclose = function (evt) {
             var item = document.createElement("div");
             item.innerHTML = "<b>Connection closed.</b>";
-            appendLog(item);
         };
         //on message, create the element and add that message
         conn.onmessage = function (evt) {
-          log.innerHTML = evt.data;
+          console.log("received message");
+          if(evt.data instanceof ArrayBuffer){
+          //const view = new DataView(event.data);
+          console.log(evt.data.byteLength);
+          }
         };
     } else {
         //if the browser doesnt support it, report
         var item = document.createElement("div");
         item.innerHTML = "<b>Your browser does not support WebSockets.</b>";
-        appendLog(item);
     }
+    console.log("Complete setup");
 };
 </script>
 <style type="text/css">
