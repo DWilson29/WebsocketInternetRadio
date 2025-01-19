@@ -22,7 +22,15 @@ window.onload = function () {
           console.log("received message");
           if(evt.data instanceof ArrayBuffer){
           //const view = new DataView(event.data);
-          console.log(evt.data.byteLength);
+            console.log(evt.data.byteLength);
+            const blob = new Blob([evt.data], { type: 'audio/wav' });
+            const url = URL.createObjectURL(blob);
+            const audio = new Audio(url);
+            audio.play();
+
+            audio.onended = () => {
+              URL.revokeObjectURL(url);
+            };
           }
         };
     } else {
