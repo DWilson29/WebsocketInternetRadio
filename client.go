@@ -84,10 +84,19 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	file, err := os.Open("test_audio.mp3")
+	file, err := os.Open("test_audio/test_audio.mp3")
 	if err != nil {
 		panic(err.Error())
 	}
+
+	//m, err := tag.ReadFrom(file)
+	//if err != nil {
+	//	panic(err.Error())
+	//}
+
+	// log.Println(m.Title())
+	// log.Println(m.Album())
+
 	stats, err := file.Stat()
 	if err != nil {
 		panic(err.Error())
