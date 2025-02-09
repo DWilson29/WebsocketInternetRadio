@@ -84,41 +84,48 @@ func serveWs(hub *Hub, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	file, err := os.Open("test_audio/test_audio.mp3")
+	files, err := os.ReadDir("test_audio")
 	if err != nil {
 		panic(err.Error())
 	}
 
-	//m, err := tag.ReadFrom(file)
-	//if err != nil {
-	//	panic(err.Error())
-	//}
+	for _, song := range files {
+		file, err := os.Open("test_audio/" + song.Name())
+		if err != nil {
+			panic(err.Error())
+		}
 
-	// log.Println(m.Title())
-	// log.Println(m.Album())
+		//m, err := tag.ReadFrom(file)
+		//if err != nil {
+		//	panic(err.Error())
+		//}
 
-	stats, err := file.Stat()
-	if err != nil {
-		panic(err.Error())
+		// log.Println(m.Title())
+		// log.Println(m.Album())
+
+		stats, err := file.Stat()
+		if err != nil {
+			panic(err.Error())
+		}
+
+		log.Println("Opening file")
+		defer file.Close()
+		reader := bufio.NewReader(file)
+		contents := make([]byte, stats.Size())
+
+		n, err := reader.Read(contents)
+		if err != nil {
+			panic(err.Error())
+		}
+
+		client := &Client{hub: hub, conn: conn, send: make(chan []byte, n)}
+		client.hub.register <- client
+
+		log.Println(("Streaming contents."))
+		log.Println(n)
+		client.send <- contents
+		streamFile(client)
 	}
-
-	log.Println("Opening file")
-	defer file.Close()
-	reader := bufio.NewReader(file)
-	contents := make([]byte, stats.Size())
-
-	n, err := reader.Read(contents)
-	if err != nil {
-		panic(err.Error())
-	}
-
-	client := &Client{hub: hub, conn: conn, send: make(chan []byte, n)}
-	client.hub.register <- client
-
-	log.Println(("Streaming contents."))
-	log.Println(n)
-	client.send <- contents
-	go streamFile(client)
 }
 
 func streamFile(c *Client) {
